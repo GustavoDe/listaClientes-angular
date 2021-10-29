@@ -16,7 +16,7 @@ export class NgstyleComponent implements OnInit {
   nomeCompleto: string = "";
   telefone: string = "";
   idade: string = "";
-  cep: string = "" ;
+  cep: any = "" ;
   endereco: string = "";
   bairro: string = "";
   nroLocal: string = "";
@@ -27,6 +27,8 @@ export class NgstyleComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  //api cep 
   preencherEndereco (enderecoApi:any) {
     this.endereco = enderecoApi.logradouro;
     this.bairro = enderecoApi.bairro;
@@ -34,13 +36,29 @@ export class NgstyleComponent implements OnInit {
     this.UF = enderecoApi.uf;
     this.telefone = enderecoApi.ddd;
   } 
+  //validação da api e tratamento de erros
+  
+
   pesquisarCep = async () => {
     const api = `https://viacep.com.br/ws/${this.cep}/json/`;
     const dadosApi = await fetch(api);
     const enderecoApi = await dadosApi.json()
-    console.log(enderecoApi)
-    this.preencherEndereco(enderecoApi)
+    //validação da api e tratamento de erros
+    if(this.cep.length == 8 && /^[0-9]+$/.test(this.cep)){
+      this.preencherEndereco(enderecoApi)
+      if(enderecoApi){
+        if (enderecoApi.hasOwnProperty('erro')) {
+          this.endereco = "Cep não encontrado";
+      } else {
+        this.preencherEndereco(enderecoApi)
+      }
+      }
+    } else {
+      this.endereco = "CEP inválido"
+    }
+
   }
+  //funcionalidades da aplicação
   cancelar() {
     this.nomeCompleto = "";
     this.telefone = "";
@@ -80,14 +98,6 @@ export class NgstyleComponent implements OnInit {
      }
      this.mostrarlistaClientes = !this.mostrarlistaClientes;
    }
-   /*alterarTema(event:any){
-     if(event.checked == true) {
-       this.colorBg = "black";
-       this.colorTema = "white"
-   } else {
-     this.colorBg = "white";
-     this.colorTema = "black"
-   }*/
 
 }
 
