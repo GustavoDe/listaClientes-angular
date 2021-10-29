@@ -1,0 +1,35 @@
+
+mat-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.card{
+    margin:40px;
+}
+
+
+
+
+/*mat-radio-group{
+    display: inline-flex;
+    flex-direction: column;
+}
+
+mat-radio-button {
+    padding-bottom: 10px;
+}
+
+.dark{
+    background: rgb(67, 67, 67);
+    color: white;
+}
+
+.light {
+    background: rgb(201, 201, 201);
+    color: black;
+}*/
